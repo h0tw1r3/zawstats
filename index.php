@@ -57,7 +57,7 @@
 
   // get date range and valid log file
   $g_dtStatsMonth = ValidateDate($_GET["year"], $_GET["month"]);
-  $g_aLogFiles = GetLogList($g_sConfig, $g_aConfig["statspath"], $g_aConfig["statsname"]);
+  $g_aLogFiles = GetLogList($g_sConfig, $g_aConfig["statspath"]);
   $g_iThisLog = -1;
   for ($iIndex = 0; $iIndex < count($g_aLogFiles); $iIndex++) {
     if (($g_dtStatsMonth == $g_aLogFiles[$iIndex][0]) && ($g_aLogFiles[$iIndex][1] == true)) {
@@ -83,7 +83,7 @@
   // create class
   $clsAWStats = new clsAWStats($g_sConfig,
                                $g_aConfig["statspath"],
-                               $g_aConfig["statsname"],
+                               null,
                                date("Y", $g_aLogFiles[$g_iThisLog][0]),
                                date("n", $g_aLogFiles[$g_iThisLog][0]));
   if ($clsAWStats->bLoaded != true) {

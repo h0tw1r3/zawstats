@@ -46,7 +46,7 @@
   // create class
   $clsAWStats = new clsAWStats($g_sConfig,
                                $g_aConfig["statspath"],
-                               $g_aConfig["statsname"],
+                               null,
                                $_GET["year"],
                                $_GET["month"]);
 

@@ -44,10 +44,13 @@
   $g_aConfig = $aConfig[$g_sConfig];
 
   // get date range and valid log file
-  $g_dtStatsMonth = ValidateDate($_GET["year"], $_GET["month"]);
+
+  $year = isset($_REQUEST['year']) ? $_REQUEST['year'] : 0;
+  $month = isset($_REQUEST['month']) ? $_REQUEST['month'] : 0;
+
+  $g_dtStatsMonth = ValidateDate($year, $month);
   $g_aLogFiles = GetLogList($g_sConfig,
-                            $g_aConfig["statspath"],
-                            $g_aConfig["statsname"]);
+                            $g_aConfig["statspath"]);
 
   // create xml
   $aXML = array();
@@ -59,7 +62,7 @@
     $dtNextMonth = mktime (0, 0, 0, ($iMonth + 1), 0, $iYear);
     $clsAWStats = new clsAWStats($g_sConfig,
                                  $g_aConfig["statspath"],
-                                 $g_aConfig["statsname"],
+                                 null,
                                  date("Y", $g_aLogFiles[$iIndex][0]),
                                  date("n", $g_aLogFiles[$iIndex][0]));
 

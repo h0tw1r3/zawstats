@@ -46,12 +46,12 @@
   // create class
   $clsAWStats = new clsAWStats($g_sConfig,
                                $g_aConfig["statspath"],
-                               $g_aConfig["statsname"],
-                               $_GET["year"],
-                               $_GET["month"]);
+                               null,
+                               $_REQUEST["year"],
+                               $_REQUEST["month"]);
 
   // create xml
-  $sSection = strtoupper($_GET["section"]);
+  $sSection = strtoupper($_REQUEST["section"]);
   switch ($sSection) {
     case "BROWSER":
     case "DAY":
