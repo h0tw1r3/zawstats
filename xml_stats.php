@@ -1,9 +1,9 @@
 <?php
 
 /*
- * JAWStats 0.7 Web Statistics
+ * MAWStats 0.8 Web Statistics
  *
- * Copyright (c) 2009 Jon Combe (jawstats.com)
+ * Copyright (c) 2009 Asaf Ohaion (mawstats.lingnu.com)
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,48 +27,59 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-// includes
-require_once "config.php";
-require_once "clsAWStats.php";
+  // includes
+  require_once "defaults.php";
+  require_once "config.php";
+  require_once "clsAWStats.php";
 
-// external include files
-if ((isset($g_aConfig["includes"]) == true) && (strlen($g_aConfig["includes"]) > 0)) {
+  // external include files
+  if ((isset($g_aConfig["includes"]) == true) && (strlen($g_aConfig["includes"]) > 0)) {
     $aIncludes = explode(",", $g_aConfig["includes"]);
     foreach ($aIncludes as $sInclude) {
-        include $sInclude;
+      include $sInclude;
     }
-}
+  }
 
-// select configuraton
-$g_sConfig = GetConfig();
-$g_aConfig = $aConfig[$g_sConfig];
+  // select configuraton
+  $g_sConfig = GetConfig();
+  $g_aConfig = $aConfig[$g_sConfig];
+  
+  if (isset($_GET["part"])) {  
+    $g_sConfig=$g_sConfig.".".$_GET["part"];
+  }
 
-// create class
-$clsAWStats = new clsAWStats($g_sConfig,
-    $g_aConfig["statspath"],
-    null,
-    $_REQUEST["year"],
-    $_REQUEST["month"]);
-
-// create xml
-$sSection = strtoupper($_REQUEST["section"]);
-switch ($sSection) {
-case "BROWSER":
-case "DAY":
-case "DOMAIN":
-case "DOWNLOADS":
-case "ERRORS":
-case "FILETYPES":
-case "KEYWORDS":
-case "PAGEREFS":
-case "OS":
-case "ROBOT":
-case "SEARCHWORDS":
-case "SEREFERRALS":
-case "SESSION":
-case "SIDER":
-case "SIDER_404":
-case "TIME":
-    $clsAWStats->OutputXML($clsAWStats->CreateXMLString($sSection));
-    break;
-}
+  // create class
+  $clsAWStats = new clsAWStats($g_sConfig,
+                               $g_aConfig["statspath"],
+                               /*$g_aConfig["statsname"]*/null,
+                               $_GET["year"],
+                               $_GET["month"]);
+if ($clsAWStats->bLoaded) {
+  // create xml
+  $sSection = $_GET["section"];
+  switch ($sSection) {
+    case "BROWSER":
+    case "DAY":
+    case "DOMAIN":
+    case "ERRORS":
+    case "FILETYPES":
+    case "KEYWORDS":
+    case "PAGEREFS":
+    case "OS":
+    case "ROBOT":
+    case "SEARCHWORDS":
+    case "SEREFERRALS":
+    case "SESSION":
+    case "SIDER":
+    case "SIDER_404":
+    case "TIME":
+    case "VISITOR":
+    case "EMAILSENDER":
+    case "EMAILRECEIVER":
+    case "PLUGIN_geoip_city_maxmind":
+    case "PLUGIN_geoip_org_maxmind":
+      $clsAWStats->OutputXML($clsAWStats->CreateXMLString($sSection));
+      break;
+  }
+} else $clsAWStats->OutputXML("");
+?>

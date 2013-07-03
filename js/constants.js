@@ -28,45 +28,6 @@
 // JAWStats constants
 var g_iMajorVersion = 0;
 var g_iMinorVersion = 7;
-var oSubMenu = {};
-oSubMenu.AllMonths  = { "Visitors each Month"                    : "allmonths.all",
-                        "Visitors each Year"                     : "allmonths.year" };
-oSubMenu.Browser    = { "Browser Families"                       : "browser.family",
-                        "All Browsers"                           : "browser.all" };
-oSubMenu.Country = {    "Countries"                              : "country.all",
-                        "Continents"                             : "country.continent",
-                        "Africa"                                 : "country.Africa",
-                        "Asia"                                   : "country.Asia",
-                        "Europe"                                 : "country.Europe",
-                        "North America"                          : "country.North America",
-                        "Oceania"                                : "country.Oceania",
-                        "South America"                          : "country.South America",
-                        "Other"                                  : "country.Other" };
-oSubMenu.OS         = { "Operating System Families"              : "os.family",
-                        "All Operating Systems"                  : "os.all" };
-oSubMenu.Downloads  = { "Top 10 Downloads"                       : "downloads.top10",
-                        "Top 50 Downloads"                       : "downloads.top50",
-                        "All Downloads"                          : "downloads.all" };
-oSubMenu.PageRefs   = { "Search Engines"                         : "pagerefs.se",
-                        "Top 10 Referrers"                       : "pagerefs.top10",
-                        "Top 50 Referrers"                       : "pagerefs.top50",
-                        "All Referrers"                          : "pagerefs.all",
-                        "Referring Domains"                      : "pagerefs.domains" };
-oSubMenu.Pages      = { "Top Page Views"                         : "pages.topPages",
-                        "Top Bandwidth"                          : "pages.topBW",
-                        "Top Entry Pages"                        : "pages.topEntry",
-                        "Top Exit Pages"                         : "pages.topExit" };
-oSubMenu.Searches   = { "Keywords"                               : "searches.keywords",
-                        "Keyphrases"                             : "searches.keyphrases",
-                        "Keywords Tag Cloud"                     : "searches.keywordcloud",
-                        "Keyphrases Tag Cloud"                   : "searches.keyphrasecloud" };
-oSubMenu.Status     = { "Status Codes"                           : "status",
-                        "File Not Found URLs"                    : "status.404" };
-oSubMenu.ThisMonth = {  "Overview"                               : "thismonth.all",
-                        "Calendar of Visitors"                   : "thismonth.visits",
-                        "Calendar of Page Views"                 : "thismonth.pages",
-                        "Calendar of Hits"                       : "thismonth.hits",
-                        "Calendar of Bandwidth Usage"            : "thismonth.bandwidth" };
 
 // data constants
 var gc_aContinents = { "Africa":0, "Asia":0, "Europe":0, "North America":0, "Oceania":0, "South America":0 };
@@ -81,14 +42,12 @@ var gc_aBrowserFamily = [ { sBrowser:"camino", iHits:0, sImage:"unknown" },
                           { sBrowser:"netscape", iHits:0, sImage:"unknown" },
                           { sBrowser:"omniweb", iHits:0, sImage:"unknown" },
                           { sBrowser:"opera", iHits:0, sImage:"unknown" },
-						  { sBrowser:"iphone", iHits:0, sImage:"unknown" },
-						  { sBrowser:"android", iHits:0, sImage:"unknown" },
                           { sBrowser:"safari", iHits:0, sImage:"unknown" },
                           { sBrowser:"wget", iHits:0, sImage:"unknown" },
-						  { sBrowser:"chrome", iHits:0, sImage:"unknown" },
+                          { sBrowser:"chrome", iHits:0, sImage:"unknown" },
                           { sBrowser:"Unknown", iHits:0, sImage:"unknown" },
                           { sBrowser:"Other Browsers", iHits:0, sImage:"unknown" } ]
-var gc_aBrowserFamilyCaption = { "camino":"Camino", "firefox":"Firefox", "icab":"iCab", "konqueror":"Konqueror", "libwww":"Libwww", "lotus\\-notes":"Lotus Notes", "mozilla":"Mozilla", "msie":"Internet Explorer", "netscape":"Netscape", "omniweb":"OmniWeb", "opera":"Opera", "safari":"Safari", "wget":"GNU Wget", "Unknown":"Unknown", "Other Browsers":"Other Browsers", "chrome":"Chrome", "iphone":"Safari Mobile", "android":"Android" }
+var gc_aBrowserFamilyCaption = { "camino":"Camino", "firefox":"Firefox", "icab":"iCab", "konqueror":"Konqueror", "libwww":"Libwww", "lotus\\-notes":"Lotus Notes", "mozilla":"Mozilla", "msie":"Internet Explorer", "netscape":"Netscape", "omniweb":"OmniWeb", "opera":"Opera", "safari":"Safari", "wget":"GNU Wget", "chrome":"Google Chrome", "Unknown":"Unknown", "Other Browsers":"Other Browsers" }
 
 // http://en.wikipedia.org/wiki/List_of_countries_by_continent
 var gc_aCountryContinent = {
@@ -637,10 +596,11 @@ var gc_aFiletypeDesc = { "asp"  : "Active Server Page",
                          "txt"  : "Text file",
                          "wav"  : "Waveform Audio file",
                          "xml"  : "XML file",
-                         "zip"  : "File Archive" };
+                         "zip"  : "File Archive",
+                         "aspx" : ".Net Server Page",
+                         "asmx" : ".Net Web Service"};
 
 var gc_aOSFamily = [ { sOperatingSystem:"bsd", iHits:0 },
-                     { sOperatingSystem:"linuxandroid", iHits:0 },
                      { sOperatingSystem:"linux", iHits:0 },
                      { sOperatingSystem:"mac", iHits:0 },
                      { sOperatingSystem:"psp", iHits:0 },
@@ -649,7 +609,7 @@ var gc_aOSFamily = [ { sOperatingSystem:"bsd", iHits:0 },
                      { sOperatingSystem:"win", iHits:0 },
                      { sOperatingSystem:"Unknown", iHits:0 },
                      { sOperatingSystem:"Other OS", iHits:0 } ]
-var gc_aOSFamilyCaption = { "bsd":"BSD", "linuxandroid":"Android", "linux":"Linux", "mac":"Apple", "psp":"PSP", "sun":"Sun", "symbian":"Symbian", "win":"Windows", "Unknown":"Unknown", "Other OS":"Other OS" }
+var gc_aOSFamilyCaption = { "bsd":"BSD", "linux":"Linux", "mac":"Apple", "psp":"PSP", "sun":"Sun", "symbian":"Symbian", "win":"Windows", "Unknown":"Unknown", "Other OS":"Other OS" }
 var gc_aSearchEngines = [ { sCode:"alexa", sName:"Alexa", sImage:"alexa", sURL:"<a href=\"http://www.alexa.com/\" target=\"_blank\">Alexa</a>" },
                           { sCode:"aliceit", sName:"Alice", sImage:"alice", sURL:"<a href=\"http://www.alice.it/\" target=\"_blank\">Alice</a>" },
                           { sCode:"alltheweb", sName:"All The Web", sImage:"alltheweb", sURL:"<a href=\"http://www.alltheweb.com/\" target=\"_blank\">All The Web</a>" },
@@ -689,16 +649,45 @@ var gc_aSearchEngines = [ { sCode:"alexa", sName:"Alexa", sImage:"alexa", sURL:"
                           { sCode:"voila", sName:"Voila", sImage:"voila", sURL:"<a href=\"http://www.voila.fr/\" target=\"_blank\">Voila</a>" },
                           { sCode:"webcrawler", sName:"WebCrawler", sImage:"webcrawler", sURL:"<a href=\"http://www.webcrawler.com/\" target=\"_blank\">WebCrawler</a>" },
                           { sCode:"webde", sName:"Web.de", sImage:"webde", sURL:"<a href=\"http://web.de/\" target=\"_blank\">Web.de</a>" },
-                          { sCode:"yahoo", sName:"Yahoo!", sImage:"yahoo", sURL:"<a href=\"http://www.yahoo.com/\" target=\"_blank\">Yahoo!</a>" } ];
+                          { sCode:"yahoo", sName:"Yahoo!", sImage:"yahoo", sURL:"<a href=\"http://www.yahoo.com/\" target=\"_blank\">Yahoo!</a>" },
+                          { sCode:"bing", sName:"bing.com", sImage:"bing", sURL:"<a href=\"http://bing.com/\" target=\"_blank\">bing.com</a>" }];
 
 var gc_aHTTPStatus = { "206"  : "Partial Content",
+		       "207"  : "Multi Status",
                        "301"  : "Moved Permanently (redirect)",
+                       "302"  : "Found (redirected temporarily)",
                        "307"  : "Moved Temporarily (redirect)",
                        "400"  : "Bad Request",
                        "401"  : "Unauthorized",
                        "403"  : "Forbidden",
                        "404"  : "File Not Found",
+                       "409"  : "Conflict",
+                       "411"  : "Length Required",
+                       "416"  : "Requested Range Not Satisfiable",
+                       "500"  : "Internal Server Error",
+                       "502"  : "Bad Gateway",
+                       "504"  : "Gateway Timeout",
                        "503"  : "Service Unavailable" };
+
+var gc_aSMTPStatus = { "200"  : "Success",
+                       "211"  : "System status, or system help reply",
+                       "214"  : "Help Message",
+		       "220"  : "<domain> Service ready",
+		       "221"  : "<domain> Service closing transmission channel",
+		       "250"  :	"Requested mail action okay, completed",
+		       "251"  : "User not local; will forward to <forward-path>",
+		       "354"  :	"Start mail input; end with <CRLF>.<CRLF>",
+		       "421"  : "<domain> Service not available, closing transmission channel",
+		       "450"  : "Requested mail action not taken: mailbox unavailable",
+		       "451"  : "Requested action aborted: local error in processing",
+		       "452"  : "Requested action not taken: insufficient system storage",
+		       "500"  : "Syntax error, command unrecognised",
+		       "501"  : "Syntax error in parameters or arguments",
+                       "502"  : "Command not implemented",
+                       "504"  : "Command parameter not implemented",
+                       "550"  : "Requested action not taken: mailbox unavailable",
+                       "551"  : "User not local; please try <forward-path>",
+                       "554"  : "Transaction Failed"};
 
 var gc_aDayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 var gc_aMonthName = ["January","February","March","April","May","June","July","August","September","October","November","December"];

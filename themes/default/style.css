@@ -42,10 +42,10 @@ td.countryflag img { height: 11px; width: 16px; }
 #footer { clear: both; padding: 6px 12px 12px 0; text-align: right; }
 #footer span { font-size: 11px; }
 #main { background: #fff; clear: both; padding: 15px 0 20px 0; }
-#main .container { background: transparent; margin: 0 auto; max-width: 970px; padding: 0; position: relative; }
+#main .container { background: transparent; margin: 0 auto; max-width: 98%; padding: 0; position: relative; }
 #content { background: transparent; }
 #header { background: #33332d; }
-#header .container { background: #33332d; margin: 0 auto; max-width: 970px; padding: 5px 0 0 0; position: relative; }
+#header .container { background: #33332d; margin: 0 auto; max-width: 988px; padding: 5px 0 0 0; position: relative; }
 #summary { color: #cccc9f; padding: 3px 0; }
 #summary span { color: #fff; font-weight: bold; }
 #menu { padding: 4px 0 0 0; }
@@ -71,8 +71,8 @@ td.countryflag img { height: 11px; width: 16px; }
 #menu li.off { background: #33332d url("images/taboff_right.gif") no-repeat right top; border-bottom: 1px solid #33332d; cursor: pointer; float:left; font-weight: normal; margin: 1px 0 0 0; }
 #menu li.off span { background: url("images/taboff_left.gif") no-repeat left top; color: #012345; display: block; padding: 7px 6px 2px 6px;  }
 
-#main .graph { background: #fff; height: 150px; margin: 0 0 7px 0; padding: 4px; width: 100%; }
-#main .pie { background: #fff; float: left; height: 380px; margin-right: 1%; padding: 4px; vertical-align: top; width: 21%; }
+#main .graph { background: #fff; height: 200px; margin: 0 0 7px 0; padding: 4px; width: 100%; }
+#main .pie { background: #fff; float: left; height: 250px; margin-right: 1%; padding: 4px; vertical-align: top; width: 21%; }
 #main .tableFull { border: 1px solid #9e9e7d; clear: both; padding: 4px; width: 100%;}
 #main .tablePie { border: 1px solid #9e9e7d; float: right; padding: 4px; width: 75%;}
 
@@ -86,15 +86,15 @@ td.countryflag img { height: 11px; width: 16px; }
 #datepicker td.selected { background: #dee5ed; cursor: pointer; text-align: center; width: 7.5%; }
 #datepicker td.fade { color: #a0acba; text-align: center; width: 7.5%; }
 
-#langpicker, #sitepicker { width: 100%; }
-#langpicker ul, #sitepicker ul { margin: 0 12px; padding: 0; }
-#langpicker ul li, #sitepicker ul li { border-top: 1px solid #aab9d3; cursor: pointer; line-height: 28px; list-style: none; margin: 0; padding: 0 0 0 10px; }
-#langpicker ul li:first-child, #sitepicker ul li:first-child { border-top: 0; }
-#langpicker ul li.selected, #sitepicker ul li.selected { background: #dee5ed; }
-#langpicker ul li:hover, #sitepicker ul li:hover { background: #dee5ed; text-decoration: underline; }
-#langpicker tr td, #sitepicker tr td { border-left: 1px solid #aab9d3; vertical-align: top; width: 33%; }
-#langpicker tr td:first-child, #sitepicker tr td:first-child { border-left: 0; }
-
+#langpicker, #sitepicker, #partspicker { width: 100%; }
+#langpicker ul, #sitepicker ul, #partspicker ul { margin: 0 12px; padding: 0; }
+#langpicker ul li, #sitepicker ul li, #partspicker ul li { border-top: 1px solid #aab9d3; cursor: pointer; line-height: 28px; list-style: none; margin: 0; padding: 0 0 0 10px; }
+#langpicker ul li:first-child, #sitepicker ul li:first-child, #partspicker ul li:first-child { border-top: 0; }
+#langpicker ul li.selected, #sitepicker ul li.selected, #partspicker ul li.selected { background: #dee5ed; }
+#langpicker ul li:hover, #sitepicker ul li:hover, #partspicker ul li:hover { background: #dee5ed; text-decoration: underline; }
+#langpicker tr td, #sitepicker tr td, #partspicker tr td { border-left: 1px solid #aab9d3; vertical-align: top; width: 33%; }
+#langpicker tr td:first-child, #sitepicker tr td:first-child, #partspicker tr td:first-child { border-left: 0; }
+#partspicker ul li.missing { background: #e58989; }
 #siteupdate { margin: 12px 0 0 0 !important; padding: 0 !important; text-align: center; }
 #siteupdate input[type=password] { border: 1px solid #444444; font-size: 19px; line-height: 34px; width: 300px; }
 #siteupdate input[type=button] { border: 1px solid #444444; font-size: 19px; line-height: 34px; }
@@ -123,6 +123,7 @@ td.calAvgDay { background: #b7bad6; height: 40px; vertical-align: middle !import
 td.calAvgDay div { color: #333; font-size: 15px; font-weight: bold; text-align: center; }
 td.calAvgDay div span { font-size: 11px; font-weight: normal; }
 td.calGraph { height: 130px; vertical-align: bottom !important; }
+td.calGraph div { height: 130px; !important; }
 
 /* logos */
 td.browserlogo { text-align: center; }
@@ -146,7 +147,7 @@ table.tablesorter thead tr .header { background-image: url('images/tablesorter_b
 table.tablesorter tbody td { background: #f5f5f2 !important; color: #333; padding: 5px; background-color: #fff; border-right: 1px solid #eee; vertical-align: top; }
 table.tablesorter tbody tr.odd td { background: #e2e2d8 !important; }
 table.tablesorter tbody tr.saturday td { background: #d3d389 !important; }
-table.tablesorter tbody tr.sunday td { background: #d3d389 !important; }
+table.tablesorter tbody tr.friday td { background: #d3d389 !important; }
 table.tablesorter tbody tr.highlight td { background: #fc3 !important; }
 table.tablesorter thead tr .headerSortUp { background-image: url('images/tablesorter_asc.gif'); }
 table.tablesorter thead tr .headerSortDown { background-image: url('images/tablesorter_desc.gif'); }
@@ -158,3 +159,24 @@ table.tablesorter .noborder { border: 0; }
 /* tag cloud */
 .tagcloud { margin-bottom: 20px; text-align: center; }
 .tagcloud span { color: #333; padding: 0 16px; white-space: nowrap; }
+
+img.logo {
+    width:80px;
+    height:70px;
+}
+
+/* control */
+
+#control {background: #fff url("images/control_bg.gif") no-repeat; opacity:0.7;filter:alpha(opacity=70);  width:120px; height:150px; margin-top:100px; margin-left:20px;position: absolute; }
+#control:hover {opacity:1;filter:alpha(opacity=100);  }
+
+#control table { margin-left:5px; margin-top:5px; width: 110px;/* height: 150px;*/ }
+#control th { font-size: 15px;  color:#cccc9f; text-align: center;  border-bottom: 1px solid gray;}
+/*#control tbody { margin-top:20px;  }*/
+#control td {padding: 10px; font-size: 12px; color:white; border: 3px gray inset; }
+/* #control td.on {border: 3px black inset;  }*/
+#control td.off {border: 3px gray outset;  }
+#control td:hover {background-color: #cccc9f; font-weight: bold;}
+
+/* flot */
+.tickLabel { font-size: 10px; }
