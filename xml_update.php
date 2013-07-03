@@ -27,36 +27,34 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-	// includes
-  require_once "config.php";
+// includes
+require_once "config.php";
 
-  // external include files
-  if ((isset($g_aConfig["includes"]) == true) && (strlen($g_aConfig["includes"]) > 0)) {
+// external include files
+if ((isset($g_aConfig["includes"]) == true) && (strlen($g_aConfig["includes"]) > 0)) {
     $aIncludes = explode(",", $g_aConfig["includes"]);
     foreach ($aIncludes as $sInclude) {
-      include $sInclude;
+        include $sInclude;
     }
-  }
+}
 
-  $sConfig = $_POST["config"];
-  header("content-type: text/xml");
-  echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-  if (isset($GLOBALS["aConfig"][$sConfig]) == true) {
+$sConfig = $_POST["config"];
+header("content-type: text/xml");
+echo '<?xml version="1.0" encoding="utf-8" ?>' . PHP_EOL;
+if (isset($GLOBALS["aConfig"][$sConfig]) == true) {
     if ($_POST["pass"] == md5($GLOBALS["aConfig"][$sConfig]["password"])) {
-      $sCommand = "export AWSTATS_DEL_GATEWAY_INTERFACE='jawstats' && " .
-                  $GLOBALS["aConfig"][$sConfig]["updatepath"] .
-                  "awstats.pl -config=" . $sConfig;
-      $sResult = shell_exec($sCommand);
-      echo "<xml>" .
-           "<result type=\"updated\" />" .
-           "<command><![CDATA[" . $sCommand . "]]></command>" .
-           "<output><![CDATA[" . $sResult . "]]></output>" .
-           "</xml>";
+        $sCommand = "export AWSTATS_DEL_GATEWAY_INTERFACE='jawstats' && " .
+            $GLOBALS["aConfig"][$sConfig]["updatepath"] .
+            "awstats.pl -config=" . $sConfig;
+        $sResult = shell_exec($sCommand);
+        echo "<xml>" .
+            "<result type=\"updated\" />" .
+            "<command><![CDATA[" . $sCommand . "]]></command>" .
+            "<output><![CDATA[" . $sResult . "]]></output>" .
+            "</xml>";
     } else {
-      echo "<xml><result type=\"bad_password\" /></xml>";
+        echo "<xml><result type=\"bad_password\" /></xml>";
     }
-  } else {
+} else {
     echo "<xml><result type=\"bad_config\" /></xml>";
-  }
-
-?>
+}
