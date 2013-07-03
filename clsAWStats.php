@@ -58,7 +58,7 @@
       $sFileName = str_replace("[M]", $this->iMonth, $sFileName);
       $sFilePath = ($sFilePath . $sFileName);
       if (is_readable($sFilePath)) {
-        $this->sAWStats = htmlspecialchars(file_get_contents($sFilePath));
+        $this->sAWStats = file_get_contents($sFilePath);
         $this->bLoaded = true;
       }
 
@@ -213,7 +213,7 @@
     	$iEndPos = strpos($this->sAWStats, ("\nEND_" . $sSection), $iStartPos);
     	$arrStat = explode("\n", substr($this->sAWStats, ($iStartPos + 1), ($iEndPos - $iStartPos - 1)));
   		for ($iIndex = 1; $iIndex < count($arrStat); $iIndex++) {
-  			$arrData[] = split(' ', $arrStat[$iIndex]);
+			$arrData[] = split(' ', htmlspecialchars($arrStat[$iIndex]));
   		}
   		return $arrData;
     }
