@@ -4,6 +4,7 @@
  * JAWStats 0.7 Web Statistics
  *
  * Copyright (c) 2009 Jon Combe (jawstats.com)
+ * Copyright (c) 2013 Jeffrey Clark (zaplabs.com)
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -83,7 +84,7 @@ class clsAWStats {
         $this->arrLabel["ERRORS"] 		  = array("id", "hits", "bw");
         $this->arrLabel["FILETYPES"] 		= array("id", "hits", "bw", "noncompressedbw", "compressedbw");
         $this->arrLabel["KEYWORDS"] 		= array("word", "freq");
-        $this->arrLabel["OS"] 			    = array("id", "hits");
+        $this->arrLabel["OS"] 			    = array("id", "hits", "pages");
         $this->arrLabel["PAGEREFS"] 		= array("url", "pages", "hits");
         $this->arrLabel["ROBOT"] 			  = array("id", "hits", "bw", "lastvisit", "robotstxt");
         $this->arrLabel["SEARCHWORDS"] 	= array("phrase", "freq");
@@ -92,6 +93,9 @@ class clsAWStats {
         $this->arrLabel["SIDER"] 	      = array("url", "pages", "bw", "entry", "exit");
         $this->arrLabel["SIDER_404"] 	  = array("url", "hits", "referrer");
         $this->arrLabel["TIME"]			    = array("hour", "pages", "hits", "bw", "notviewedpages", "notviewedhits", "notviewedbw");
+        $this->arrLabel["VISITOR"] = array("address", "pages", "hits", "bw", "lastvisit", "lastvisitstart", "lastvisitpage", "desc");
+        $this->arrLabel["PLUGIN_geoip_city_maxmind"] = array("id", "pages", "hits", "bw", "lastvisit");
+        $this->arrLabel["PLUGIN_geoip_city_maxmind"] = array("id", "pages", "hits", "bw", "lastvisit");
     }
 
     function CreateJSON($sSection) {
