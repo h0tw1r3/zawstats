@@ -27,40 +27,38 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-  // includes
-  require_once "defaults.php";
-  require_once "config.php";
-  require_once "clsAWStats.php";
+// includes
+require_once "defaults.php";
+require_once "config.php";
+require_once "clsAWStats.php";
 
-  // external include files
-  if ((isset($g_aConfig["includes"]) == true) && (strlen($g_aConfig["includes"]) > 0)) {
+// external include files
+if ((isset($g_aConfig["includes"]) == true) && (strlen($g_aConfig["includes"]) > 0)) {
     $aIncludes = explode(",", $g_aConfig["includes"]);
     foreach ($aIncludes as $sInclude) {
-      include $sInclude;
+        include $sInclude;
     }
-  }
+}
 
-  // select configuraton
-  $g_sConfig = GetConfig();
-  $g_aConfig = $aConfig[$g_sConfig];
+// select configuraton
+$g_sConfig = GetConfig();
+$g_aConfig = $aConfig[$g_sConfig];
 
-  if (isset($_GET["part"])) {  
+if (isset($_GET["part"])) {  
     $g_sConfig=$g_sConfig.".".$_GET["part"];
-  }
+}
 
-  // create class
-  $clsAWStats = new clsAWStats($g_sConfig,
-                               $g_aConfig["statspath"],
-			       /* $g_aConfig["statsname"]*/null,
-                               $_GET["year"],
-                               $_GET["month"]);
+// create class
+$clsAWStats = new clsAWStats($g_sConfig,
+    $g_aConfig["statspath"],
+                   /* $g_aConfig["statsname"]*/null,
+                   $_GET["year"],
+                   $_GET["month"]);
 
-  $urlAliasFile = null;
-  if (isset($g_aConfig["urlaliasfile"])) {  
+$urlAliasFile = null;
+if (isset($g_aConfig["urlaliasfile"])) {  
     $urlAliasFile = $g_aConfig["statspath"].$g_aConfig["urlaliasfile"];
-  }
-  
-  // create xml
-  $clsAWStats->OutputXML($clsAWStats->CreatePagesXMLString($urlAliasFile));
+}
 
-?>
+// create xml
+$clsAWStats->OutputXML($clsAWStats->CreatePagesXMLString($urlAliasFile));

@@ -36,6 +36,7 @@
     var $iTotalVisits   = 0;
     var $iUniqueVisits  = 0;
     var $arrLabel       = array();
+    var $arrSpecial     = array();
     var $arrLogMonths   = array();
     var $siteName       = array();
     var $dtStartOfMonth = 0;
@@ -71,7 +72,7 @@
       $this->sFileName = $sFileName;
       
       if (is_readable($sFilePath)) {
-        $this->sAWStats = htmlspecialchars(file_get_contents($sFilePath));
+        $this->sAWStats = file_get_contents($sFilePath);
         $this->bLoaded = true;
       } else return;
       
@@ -95,16 +96,18 @@
       $this->arrLabel["ERRORS"] 		  = array("id", "hits", "bw");
       $this->arrLabel["FILETYPES"] 		= array("id", "hits", "bw", "noncompressedbw", "compressedbw");
       $this->arrLabel["KEYWORDS"] 		= array("word", "freq");
-      $this->arrLabel["OS"] 			    = array("id", "hits");
+      $this->arrLabel["OS"] 			    = array("id", "hits", "pages");
       $this->arrLabel["PAGEREFS"] 		= array("url", "pages", "hits");
-      $this->arrLabel["ROBOT"] 			  = array("id", "hits", "bw", "lastvisit", "robotstxt");
+      $this->arrLabel["ROBOT"] 			  = array("match", "id", "hits", "bw", "lastvisit", "robotstxt");
+      $this->arrSpecial["ROBOT"] = array('match' => '/^(.+) (\d+) (\d+) (\d+) (\d+)$/m');
+      //$this->arrSpecial["ROBOT"] = array('match' => '/^(?P<id>.+) (?P<hits>\d+) (?P<bw>\d+) (?P<lastvisit>\d+) (?P<robotstxt>\d+)$/');
       $this->arrLabel["SEARCHWORDS"] 	= array("phrase", "freq");
       $this->arrLabel["SEREFERRALS"] 	= array("id", "pages", "hits");
       $this->arrLabel["SESSION"] 		  = array("range", "freq");
       $this->arrLabel["SIDER"] 	      = array("url", "pages", "bw", "entry", "exit");
       $this->arrLabel["SIDER_404"] 	  = array("url", "hits", "referrer");
       $this->arrLabel["TIME"]		    = array("hour", "pages", "hits", "bw", "notviewedpages", "notviewedhits", "notviewedbw");
-      $this->arrLabel["VISITOR"]	    = array("address", "pages", "hits", "bw", "lastvisit", "lastvisitstart", "lastvisitpage", "desc");
+      $this->arrLabel["VISITOR"]	    = array("address", "pages", "hits", "bw", "lastvisit", "lastvisitstart", "lastvisitpage");
       $this->arrLabel["EMAILSENDER"]	    = array("address", "emails", "bw", "lastvisit");
       $this->arrLabel["EMAILRECEIVER"]	    = array("address", "emails", "bw", "lastvisit");
       $this->arrLabel["PLUGIN_geoip_city_maxmind"]	    = array("id", "pages", "hits", "bw", "lastvisit");
@@ -246,85 +249,68 @@
     }
 
     function CreateXMLString($sSection) {
-      // produce xml
-      $aXML = array();
-      $arrData = $this->GetSection($sSection);
-      $aXML[] = "<info lastupdate=\"" . $this->dtLastUpdate . "\" />\n<data>\n";
+        // produce xml
+        $aXML = array();
+        $arrData = $this->GetSection($sSection);
+        $aXML[] = "<info lastupdate=\"" . $this->dtLastUpdate . "\" />\n<data>\n";
 
-      for ($iIndexItem = 0; $iIndexItem < count($arrData); $iIndexItem++) {
-        $sTemp = "";
-        for ($iIndexAttr = 0; $iIndexAttr < count($arrData[$iIndexItem]); $iIndexAttr++) {
-//          $sTemp2 = htmlentities(urldecode(trim($arrData[$iIndexItem][$iIndexAttr])),ENT_COMPAT,'UTF-8');
-          $sTemp2 = htmlspecialchars(urldecode(trim($arrData[$iIndexItem][$iIndexAttr])),ENT_COMPAT,'UTF-8');
-//          $sTemp2 = urldecode(trim($arrData[$iIndexItem][$iIndexAttr]));
-          $enc = mb_detect_encoding($sTemp,'UTF-8,ASCII,ISO-8859-1');
-	  if ( $enc != 'UTF-8' ) {
-	    $sTemp2 = iconv($enc,'UTF-8',$sTemp);
-	  }
-//	  $sTemp2 = htmlentities($sTemp2, ENT_COMPAT, "UTF-8");
-//	  $sTemp2 = str_replace("-","",$sTemp2);
-//	  $sTemp2 = str_replace("!","",$sTemp2);
-//	  $sTemp2 = str_replace("xml","",$sTemp2);
-//	  $sTemp2 = str_replace(array("\r", "\r\n", "\n"),"",$sTemp2);
-//	  $sTemp2 = str_replace("&","",$sTemp2);
-//	  $sTemp2 = str_replace('"',"",$sTemp2);
-//	  $sTemp2 = str_replace("'","",$sTemp2);
-//	  $sTemp2 = str_replace("<","",$sTemp2);
-//	  $sTemp2 = str_replace(">","",$sTemp2);
-//	  $sTemp2 = str_replace("?","",$sTemp2);
-          $sTemp .= $this->arrLabel[$sSection][$iIndexAttr] . "=\"" . $sTemp2 . "\" ";
-//	  $sTemp = str_replace(array("\r","\r\n","\n"),"",$sTemp);
-//          $sTemp .= $this->arrLabel[$sSection][$iIndexAttr] . "=\"" . htmlspecialchars($sTemp2,ENT_COMPAT,mb_detect_encoding($sTemp2)) . "\" ";
+        for ($iIndexItem = 0; $iIndexItem < count($arrData); $iIndexItem++) {
+            $sTemp = "";
+            for ($iIndexAttr = 0; $iIndexAttr < count($arrData[$iIndexItem]); $iIndexAttr++) {
+                $sTemp2 = htmlspecialchars(urldecode(trim($arrData[$iIndexItem][$iIndexAttr])),ENT_COMPAT,'UTF-8');
+                $enc = mb_detect_encoding($sTemp,'UTF-8,ASCII,ISO-8859-1');
+                if ( $enc != 'UTF-8' ) {
+                    $sTemp2 = iconv($enc,'UTF-8',$sTemp);
+                }
+                $sTemp .= $this->arrLabel[$sSection][$iIndexAttr] . "=\"" . $sTemp2 . "\" ";
+            }
+            if (!strstr($sTemp,'=""')) {
+                $aXML[] = ("<item " . $sTemp . "/>\n");
+            }
         }
-	if (!strstr($sTemp,'=""')) {
-        $aXML[] = ("<item " . $sTemp . "/>\n");
-        }
-      }
-      $aXML[] = "</data>\n";
-      return implode("", $aXML);
+        $aXML[] = "</data>\n";
+        return implode("", $aXML);
     }
 
     function GetSection($sSection) {
-    	$iStartPos = strpos($this->sAWStats, ("\nBEGIN_" . $sSection . " "));
-	if ($iStartPos===FALSE) return array();
-    	$iEndPos = strpos($this->sAWStats, ("\nEND_" . $sSection), $iStartPos);
-	$max = 0;
-	$aDesc=array();
-	if (array_key_exists("aDesc", $GLOBALS))
-		$aDesc = $GLOBALS["aDesc"];
-	if (isset($_GET["max"]))
-		  $max=$_GET["max"];
-    	$arrStat = explode("\n", substr($this->sAWStats, ($iStartPos + 1), ($iEndPos - $iStartPos - 1)));
-	if ( $max == 0 )
-	  for ($iIndex = 1; $iIndex < count($arrStat); $iIndex++) {
-	    $data_line = explode(' ', $arrStat[$iIndex]);
-	    if (isset($aDesc[$sSection])) {
-	      $req_len = count($this->arrLabel[$sSection])-1;
-	      while ( count($data_line) < $req_len ) $data_line[] = "";
-	      $desc = $data_line[0];
-	      if (isset($aDesc[$sSection][$data_line[0]]))
-		$desc = $aDesc[$sSection][$data_line[0]];
-	      $data_line[] = $desc;
-	    }
-	    $arrData[] = $data_line;	 
-	  }
-	else 
-	  for ($iIndex = 1; $iIndex < count($arrStat); $iIndex++) {
-	    $data_line = explode(' ', $arrStat[$iIndex]);
-	    if (isset($aDesc[$sSection])) {
-	      $req_len = count($this->arrLabel[$sSection])-1;
-	      while ( count($data_line) < $req_len  ) $data_line[] = "";
-	      $desc = $data_line[0];
-	      if (isset($aDesc[$sSection][$data_line[0]]))
-		$desc = $aDesc[$sSection][$data_line[0]];
-	      $data_line[] = $desc;
-	    }
-	    $arrData[] = $data_line;	 
-	    if ( $iIndex > $max )
-	      break;
-	  }
-	 
-	return $arrData;
+        $iStartPos = strpos($this->sAWStats, ("\nBEGIN_" . $sSection . " "));
+        if ($iStartPos===FALSE) return array();
+        $iEndPos = strpos($this->sAWStats, ("\nEND_" . $sSection), $iStartPos);
+        $max = 100000;
+        $aDesc=array();
+        if (array_key_exists("aDesc", $GLOBALS))
+            $aDesc = $GLOBALS["aDesc"];
+        if (isset($_GET["max"]))
+            $max=$_GET["max"];
+
+        if (isset($this->arrSpecial[$sSection]['match'])) {
+            $blob = substr($this->sAWStats, ($iStartPos + 1), ($iEndPos - $iStartPos - 1));
+            preg_match_all( $this->arrSpecial[$sSection]['match'], $blob, $arrData, PREG_SET_ORDER );
+            if ( $max < 100000 ) {
+                $arrData = array_shift(array_chunk($t, $max));
+            }
+        } else {
+            $arrStat = explode("\n", substr($this->sAWStats, ($iStartPos + 1), ($iEndPos - $iStartPos - 1)));
+
+            for ($iIndex = 1; $iIndex < count($arrStat); $iIndex++) {
+                $data_line = explode(' ', $arrStat[$iIndex]);
+                // Supposed to map ugly to nice (or hide stuff)
+                // Looks really hacky, and unused - disable for now
+                //if (isset($aDesc[$sSection])) {
+                //    $req_len = count($this->arrLabel[$sSection])-1;
+                //    while ( count($data_line) < $req_len  ) $data_line[] = "";
+                //    $desc = $data_line[0];
+                //    if (isset($aDesc[$sSection][$data_line[0]]))
+                //        $desc = $aDesc[$sSection][$data_line[0]];
+                //    $data_line[] = $desc;
+                //}
+                $arrData[] = $data_line;
+                if ( $iIndex > $max )
+                    break;
+            }
+        }
+
+        return $arrData;
     }
 
     function GetSummaryElement($arrData, $sLabel, $iElementID) {
